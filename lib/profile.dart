@@ -8,6 +8,7 @@ class Profile extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        elevation: 0,
         //TODO Localizations
         //TODO mock http server
         title: Text('TOTAL PAYMENT'),
@@ -23,35 +24,49 @@ class Profile extends StatelessWidget {
           //TODO
           ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            '\$ 1024.68',
-            style: textTheme.headline6,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Text(
+              '\$ 1024.68',
+              style: textTheme.headline6,
+            ),
           ),
-          Text(
-            'Your monthly bill',
-            style: textTheme.bodyText2,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Text(
+              'Your monthly bill',
+              style: textTheme.bodyText2,
+            ),
           ),
-          Row(
-            children: <Widget>[
-              FlatButton(
-                onPressed: () {},
-                child: Text(
-                  'View bill',
-                  style: Theme.of(context).accentTextTheme.bodyText2,
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+            child: Row(
+              children: <Widget>[
+                FlatButton(
+                  onPressed: () {},
+                  child: Text(
+                    'View bill',
+                    style: Theme.of(context).accentTextTheme.bodyText2,
+                  ),
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(color: Colors.white),
+                    borderRadius: BorderRadius.circular(100),
+                  ),
                 ),
-                color: Colors.white,
-              ),
-              //outline button v
-              FlatButton(
-                onPressed: () {},
-                child: Text('Pay', style: textTheme.bodyText2),
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(color: Colors.white),
-                  borderRadius: BorderRadius.circular(100),
+                FlatButton(
+                  onPressed: () {},
+                  child: Text('Pay', style: textTheme.bodyText2),
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(color: Colors.white),
+                    borderRadius: BorderRadius.circular(100),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           _TypesList(),
         ],
@@ -93,14 +108,23 @@ class _AgentCard extends StatelessWidget {
       //TODO pad 1/8 - card - 3/8
       widthFactor: 0.5,
       child: Card(
+        shape: RoundedRectangleBorder(
+          side: BorderSide.none,
+          borderRadius: BorderRadius.circular(50),
+        ),
         color: Colors.red,
-        child: ListTile(
-          leading: CircleAvatar(
-              child: Container(
-            color: Colors.white,
-          )),
-          title: Text('Name Surname'),
-          subtitle: Text('My Agent'),
+        child: Column(
+          children: <Widget>[
+            ListTile(
+              leading: CircleAvatar(
+                child: Container(
+                  color: Colors.white,
+                ),
+              ),
+              title: Text('Name Surname'),
+              subtitle: Text('My Agent'),
+            ),
+          ],
         ),
       ),
     );
@@ -141,10 +165,11 @@ class _TypesListItem extends StatelessWidget {
             ),
             //TODO graph
             SizedBox(
-              width: 100,
-              height: 20,
-              child: Container(color: Colors.black26,)
-            ),
+                width: 100,
+                height: 20,
+                child: Container(
+                  color: Colors.black26,
+                )),
           ],
         ),
       ],
