@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    //theming
     TextTheme textTheme = Theme.of(context).textTheme;
+    double horizontalPadding = 20;
+    double verticalPadding = 20;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -27,22 +30,22 @@ class Profile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
             child: Text(
               '\$ 1024.68',
               style: textTheme.headline6,
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
             child: Text(
               'Your monthly bill',
               style: textTheme.bodyText2,
             ),
           ),
           Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+            padding: EdgeInsets.symmetric(
+                horizontal: horizontalPadding, vertical: verticalPadding),
             child: Row(
               children: <Widget>[
                 FlatButton(
@@ -57,6 +60,7 @@ class Profile extends StatelessWidget {
                     borderRadius: BorderRadius.circular(100),
                   ),
                 ),
+                SizedBox(width: 5),
                 FlatButton(
                   onPressed: () {},
                   child: Text('Pay', style: textTheme.bodyText2),
@@ -78,24 +82,33 @@ class Profile extends StatelessWidget {
 class _TypesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    //theming
     Radius _radius = Radius.circular(50);
     return Expanded(
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-            topLeft: _radius,
-            topRight: _radius,
+      child: Stack(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(top: 25),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: _radius,
+                  topRight: _radius,
+                ),
+              ),
+            ),
           ),
-        ),
-        child: Column(
-          children: <Widget>[
-            _AgentCard(),
-            _TypesListItem(type: 'type1', sum: '650.24'),
-            _TypesListItem(type: 'type2', sum: '205.12'),
-            _TypesListItem(type: 'type3', sum: '350.67'),
-          ],
-        ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              _AgentCard(),
+              _TypesListItem(type: 'Home Insurance', sum: '650.24'),
+              _TypesListItem(type: 'Home Insurance', sum: '205.12'),
+              _TypesListItem(type: 'Home Insurance', sum: '350.67'),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -104,27 +117,49 @@ class _TypesList extends StatelessWidget {
 class _AgentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return FractionallySizedBox(
-      //TODO pad 1/8 - card - 3/8
-      widthFactor: 0.5,
-      child: Card(
-        shape: RoundedRectangleBorder(
-          side: BorderSide.none,
-          borderRadius: BorderRadius.circular(50),
-        ),
-        color: Colors.red,
-        child: Column(
-          children: <Widget>[
-            ListTile(
-              leading: CircleAvatar(
-                child: Container(
-                  color: Colors.white,
+    double horizontalPadding = 30;
+    return Padding(
+      padding: EdgeInsets.only(
+        left: horizontalPadding,
+        right: horizontalPadding,
+      ),
+      child: FractionallySizedBox(
+        //widthFactor: 0.5,
+        child: Card(
+          shape: RoundedRectangleBorder(
+            side: BorderSide.none,
+            borderRadius: BorderRadius.circular(50),
+          ),
+          color: Colors.red,
+          child: Column(
+            children: <Widget>[
+              ListTile(
+                leading: CircleAvatar(
+                  child: FlutterLogo(),
+                  backgroundColor: Colors.white,
                 ),
+                title: Text('Name Surname'),
+                subtitle: Text('My Agent'),
               ),
-              title: Text('Name Surname'),
-              subtitle: Text('My Agent'),
-            ),
-          ],
+              ButtonBar(
+                alignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.chat),
+                    onPressed: () {},
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.phone),
+                    onPressed: () {},
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.message),
+                    onPressed: () {},
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -143,36 +178,48 @@ class _TypesListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).accentTextTheme;
-    return Row(
-      children: <Widget>[
-        Column(
-          children: <Widget>[
-            Text(
-              type,
-              style: textTheme.bodyText2,
+    double horizontalPadding = 20;
+    double verticalPadding = 20;
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  type,
+                  style: textTheme.bodyText2,
+                ),
+                Text(
+                  '\$ $sum',
+                  style: textTheme.subtitle1,
+                ),
+              ],
             ),
-            Text(
-              '\$ $sum',
-              style: textTheme.subtitle1,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+            child: Column(
+              children: <Widget>[
+                Text(
+                  'last month',
+                  style: textTheme.bodyText2,
+                ),
+                //TODO graph
+                SizedBox(
+                    width: 100,
+                    height: 20,
+                    child: Container(
+                      color: Colors.black26,
+                    )),
+              ],
             ),
-          ],
-        ),
-        Column(
-          children: <Widget>[
-            Text(
-              'last month',
-              style: textTheme.bodyText2,
-            ),
-            //TODO graph
-            SizedBox(
-                width: 100,
-                height: 20,
-                child: Container(
-                  color: Colors.black26,
-                )),
-          ],
-        ),
-      ],
+          ),
+        ],
+      ),
     );
   }
 }
