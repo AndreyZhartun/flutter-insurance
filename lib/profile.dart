@@ -6,7 +6,7 @@ class Profile extends StatelessWidget {
   Widget build(BuildContext context) {
     //theming
     TextTheme textTheme = Theme.of(context).textTheme;
-    double horizontalPadding = 20;
+    double horizontalPadding = 30;
     double verticalPadding = 20;
     return Scaffold(
       appBar: AppBar(
@@ -18,7 +18,7 @@ class Profile extends StatelessWidget {
         centerTitle: true,
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.notifications),
+            icon: Icon(Icons.notifications_none),
             onPressed: () {},
           )
         ],
@@ -88,7 +88,7 @@ class _TypesList extends StatelessWidget {
       child: Stack(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(top: 25),
+            padding: const EdgeInsets.only(top: 40),
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -100,14 +100,14 @@ class _TypesList extends StatelessWidget {
             ),
           ),
           Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              _AgentCard(),
-              _TypesListItem(type: 'Home Insurance', sum: '650.24'),
-              _TypesListItem(type: 'Home Insurance', sum: '205.12'),
-              _TypesListItem(type: 'Home Insurance', sum: '350.67'),
-            ],
-          ),
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                _AgentCard(),
+                _TypesListItem(type: 'Home Insurance', sum: '650.24'),
+                _TypesListItem(type: 'Home Insurance', sum: '205.12'),
+                _TypesListItem(type: 'Home Insurance', sum: '350.67'),
+              ],
+            ),
         ],
       ),
     );
@@ -119,11 +119,8 @@ class _AgentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     double horizontalPadding = 30;
     return Padding(
-      padding: EdgeInsets.only(
-        left: horizontalPadding,
-        right: horizontalPadding,
-      ),
-      child: FractionallySizedBox(
+      padding: EdgeInsets.only(left: horizontalPadding, right: horizontalPadding,),
+      child: Container(
         //widthFactor: 0.5,
         child: Card(
           shape: RoundedRectangleBorder(
@@ -141,8 +138,8 @@ class _AgentCard extends StatelessWidget {
                 title: Text('Name Surname'),
                 subtitle: Text('My Agent'),
               ),
-              ButtonBar(
-                alignment: MainAxisAlignment.center,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   IconButton(
                     icon: Icon(Icons.chat),
@@ -153,7 +150,7 @@ class _AgentCard extends StatelessWidget {
                     onPressed: () {},
                   ),
                   IconButton(
-                    icon: Icon(Icons.message),
+                    icon: Icon(Icons.mail),
                     onPressed: () {},
                   ),
                 ],
@@ -178,10 +175,10 @@ class _TypesListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).accentTextTheme;
-    double horizontalPadding = 20;
-    double verticalPadding = 20;
+    double horizontalPadding = 30;
+    double verticalPadding = 1;
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+      padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: verticalPadding),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -200,9 +197,10 @@ class _TypesListItem extends StatelessWidget {
               ],
             ),
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-            child: Column(
+          /*Padding(
+            padding: EdgeInsets.symmetric(horizontal: horizontalPadding-25),
+            child: */Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
                   'last month',
@@ -210,13 +208,17 @@ class _TypesListItem extends StatelessWidget {
                 ),
                 //TODO graph
                 SizedBox(
-                    width: 100,
+                    width: 70,
                     height: 20,
                     child: Container(
                       color: Colors.black26,
                     )),
               ],
             ),
+          //),
+          IconButton(
+            icon: Icon(Icons.chevron_right, color: Colors.black),
+            onPressed: (){},
           ),
         ],
       ),
