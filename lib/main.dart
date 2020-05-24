@@ -14,8 +14,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         //primarySwatch: Colors.black,
-        scaffoldBackgroundColor: Colors.black,
-        //accentColor: Colors.black26,
+        scaffoldBackgroundColor: Color.fromRGBO(53, 53, 53, 1),
+        accentColor: Color.fromRGBO(130, 130, 130, 1),//Color.fromRGBO(144, 144, 148, 1),
         textTheme: Typography.whiteMountainView,
         accentTextTheme: Typography.blackMountainView,
         iconTheme: IconThemeData(
