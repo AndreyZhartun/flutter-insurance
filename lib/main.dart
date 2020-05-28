@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mock_insurance/profile.dart';
+import 'package:mock_insurance/stats.dart';
+import 'package:mock_insurance/themes.dart';
+
+import 'home.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,18 +16,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Mock Insurance App',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        //primarySwatch: Colors.black,
-        scaffoldBackgroundColor: Color.fromRGBO(53, 53, 53, 1),
-        accentColor: Color.fromRGBO(130, 130, 130, 1),//Color.fromRGBO(144, 144, 148, 1),
-        textTheme: Typography.whiteMountainView,
-        accentTextTheme: Typography.blackMountainView,
-        iconTheme: IconThemeData(
-          color: Colors.white,
-        ),
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: Profile(),
+      theme: appTheme,
+      initialRoute: '/profile',
+      routes: {
+        '/': (context) => Home(),
+        '/profile': (context) => Profile(),
+        '/stats': (context) => Stats(),
+      },
+      //home: Home(),
     );
   }
 }

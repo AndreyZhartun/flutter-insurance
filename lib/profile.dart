@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+//import 'package:mock_insurance/stats.dart';
+import 'package:mock_insurance/themes.dart';
 //import 'package:flutter/cupertino.dart';
 
 class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //theming
-    TextTheme textTheme = Theme.of(context).textTheme;
-    double horizontalPadding = 30;
-    double verticalPadding = 30;
+    TextTheme _textTheme = Theme.of(context).textTheme;
+    double _horizontalPadding = MyTheme.horizontalPadding;
     return Scaffold(
       /*appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -16,7 +17,7 @@ class Profile extends StatelessWidget {
         //TODO mock http server
         title: Text(
           'TOTAL PAYMENT',
-          style: textTheme.bodyText1.copyWith(
+          style: _textTheme.bodyText1.copyWith(
             letterSpacing: 1,
           ),
         ),
@@ -37,8 +38,8 @@ class Profile extends StatelessWidget {
           children: <Widget>[
             Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: horizontalPadding,
-                vertical: horizontalPadding * 0.5,
+                horizontal: _horizontalPadding,
+                vertical: _horizontalPadding * 0.5,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -47,29 +48,31 @@ class Profile extends StatelessWidget {
                     onPressed: () {},
                     icon: Icon(Icons.drag_handle),
                     padding: EdgeInsets.zero,
+                    alignment: Alignment.centerLeft,
                   ),
                   Text(
                     'TOTAL PAYMENT',
-                    style: textTheme.bodyText1.copyWith(
+                    style: _textTheme.bodyText1.copyWith(
                       letterSpacing: 1,
                     ),
                   ),
                   IconButton(
                     icon: Icon(Icons.notifications_none),
                     onPressed: () {},
+                    alignment: Alignment.centerRight,
                   ),
                 ],
               ),
             ),
             Padding(
               padding: EdgeInsets.only(
-                left: horizontalPadding,
-                right: horizontalPadding,
-                //top: horizontalPadding * 0.5,
+                left: _horizontalPadding,
+                right: _horizontalPadding,
+                //top: _horizontalPadding * 0.5,
               ),
               child: Text(
                 '\$ 1024.68',
-                style: textTheme.headline3.copyWith(
+                style: _textTheme.headline3.copyWith(
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                   letterSpacing: 1,
@@ -77,10 +80,10 @@ class Profile extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+              padding: EdgeInsets.symmetric(horizontal: _horizontalPadding),
               child: Text(
                 'Your monthly bill',
-                style: textTheme.bodyText2.copyWith(
+                style: _textTheme.bodyText2.copyWith(
                   letterSpacing: 0.5,
                   color: Theme.of(context).accentColor,
                 ),
@@ -88,12 +91,14 @@ class Profile extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.symmetric(
-                  horizontal: horizontalPadding, vertical: verticalPadding),
+                horizontal: _horizontalPadding,
+                vertical: 30,
+              ),
               child: Row(
                 children: <Widget>[
                   SizedBox(
-                    width: 120,
-                    height: 45,
+                    width: MyTheme.buttonWidth,
+                    height: MyTheme.buttonHeight,
                     child: FlatButton(
                       onPressed: () {},
                       child: Text(
@@ -115,13 +120,13 @@ class Profile extends StatelessWidget {
                   ),
                   SizedBox(width: 5),
                   SizedBox(
-                    width: 120,
-                    height: 45,
+                    width: MyTheme.buttonWidth,
+                    height: MyTheme.buttonHeight,
                     child: FlatButton(
                       onPressed: () {},
                       child: Text(
                         'Pay',
-                        style: textTheme.bodyText1.copyWith(
+                        style: _textTheme.bodyText1.copyWith(
                             //letterSpacing: 0.5,
                             ),
                       ),
@@ -146,9 +151,9 @@ class Profile extends StatelessWidget {
 class _TypesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //theming TODO
-    Radius _radius = Radius.circular(50);
-    double horizontalPadding = 30;
+    //theming
+    Radius _radius = Radius.circular(MyTheme.circularRadius);
+    double _horizontalPadding = MyTheme.horizontalPadding;
     //data
     List types = [
       {
@@ -158,6 +163,10 @@ class _TypesList extends StatelessWidget {
       {
         "type": "Car Insurance",
         "sum": "205.12",
+      },
+      {
+        "type": "Life Insurance",
+        "sum": "350.20",
       },
       {
         "type": "Life Insurance",
@@ -193,8 +202,8 @@ class _TypesList extends StatelessWidget {
                   },
                   separatorBuilder: (context, index) {
                     return Divider(
-                      indent: horizontalPadding,
-                      endIndent: horizontalPadding,
+                      indent: _horizontalPadding,
+                      endIndent: _horizontalPadding,
                     );
                   },
                   itemCount: types.length,
@@ -214,15 +223,15 @@ class _TypesList extends StatelessWidget {
 class _AgentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //TODO theming
-    TextTheme textTheme = Theme.of(context).textTheme;
-    double horizontalPadding = 30;
-    double imageRadius = 30;
+    //theming
+    TextTheme _textTheme = Theme.of(context).textTheme;
+    double _horizontalPadding = MyTheme.horizontalPadding;
+    double _imageRadius = MyTheme.imageRadius;
     return Padding(
       padding: EdgeInsets.only(
-        left: horizontalPadding,
-        right: horizontalPadding,
-        bottom: horizontalPadding,
+        left: _horizontalPadding,
+        right: _horizontalPadding,
+        bottom: _horizontalPadding,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -238,26 +247,26 @@ class _AgentCard extends StatelessWidget {
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(
-                    top: horizontalPadding * 0.5,
-                    left: horizontalPadding * 0.5,
-                    right: horizontalPadding * 0.5,
+                    top: _horizontalPadding * 0.5,
+                    left: _horizontalPadding * 0.5,
+                    right: _horizontalPadding * 0.5,
                   ),
                   child: Row(
                     children: <Widget>[
                       CircleAvatar(
                         child: FlutterLogo(),
-                        radius: imageRadius,
+                        radius: _imageRadius,
                         backgroundColor: Colors.white,
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(
-                            horizontal: horizontalPadding * 0.5),
+                            horizontal: _horizontalPadding * 0.5),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               'Name Surname',
-                              style: textTheme.subtitle1.copyWith(
+                              style: _textTheme.subtitle1.copyWith(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -289,12 +298,18 @@ class _AgentCard extends StatelessWidget {
             ),
           ),
           Padding(
-            padding:
-                EdgeInsets.only(top: imageRadius * 2 + horizontalPadding * 0.5),
+            padding: EdgeInsets.only(
+                top: _imageRadius * 2 + _horizontalPadding * 0.5),
             child: Row(
               children: <Widget>[
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    /*Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Stats()),
+                    );*/
+                    Navigator.pushNamed(context, '/stats');
+                  },
                   icon: Icon(
                     Icons.more_horiz,
                     color: Theme.of(context).scaffoldBackgroundColor,
@@ -322,13 +337,14 @@ class _TypesListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //theming
-    TextTheme textTheme = Theme.of(context).accentTextTheme;
-    double horizontalPadding = 30;
-    double verticalPadding = 1;
+    TextTheme _textTheme = Theme.of(context).accentTextTheme;
+    double _horizontalPadding = 30;
     Color accentColor = Theme.of(context).accentColor;
     return Padding(
       padding: EdgeInsets.symmetric(
-          horizontal: horizontalPadding, vertical: verticalPadding),
+        horizontal: _horizontalPadding,
+        vertical: 1,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -340,7 +356,7 @@ class _TypesListItem extends StatelessWidget {
                   padding: EdgeInsets.only(bottom: 6),
                   child: Text(
                     type,
-                    style: textTheme.bodyText2.copyWith(
+                    style: _textTheme.bodyText2.copyWith(
                       color: accentColor,
                       letterSpacing: 0.5,
                     ),
@@ -348,7 +364,7 @@ class _TypesListItem extends StatelessWidget {
                 ),
                 Text(
                   '\$ $sum',
-                  style: textTheme.headline5.copyWith(
+                  style: _textTheme.headline5.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -356,7 +372,7 @@ class _TypesListItem extends StatelessWidget {
             ),
           ),
           /*Padding(
-            padding: EdgeInsets.symmetric(horizontal: horizontalPadding-25),
+            padding: EdgeInsets.symmetric(horizontal: _horizontalPadding-25),
             child: */
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -365,7 +381,7 @@ class _TypesListItem extends StatelessWidget {
                 padding: EdgeInsets.only(bottom: 6),
                 child: Text(
                   'last month',
-                  style: textTheme.bodyText2.copyWith(
+                  style: _textTheme.bodyText2.copyWith(
                     color: accentColor,
                     letterSpacing: 0.5,
                   ),
@@ -375,23 +391,24 @@ class _TypesListItem extends StatelessWidget {
               /*SizedBox(
                 width: 140,
                 //height: 40,
-                height: textTheme.headline5.fontSize,
+                height: _textTheme.headline5.fontSize,
                 child: Container(
                   color: Colors.black26,
                 ),
               ),*/
               Text(
-                  'xd',
-                  style: textTheme.headline5.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+                'xd',
+                style: _textTheme.headline5.copyWith(
+                  fontWeight: FontWeight.bold,
                 ),
+              ),
             ],
           ),
           //),
           IconButton(
             icon: Icon(Icons.chevron_right, color: Colors.black),
             onPressed: () {},
+            alignment: Alignment.centerRight,
           ),
         ],
       ),
