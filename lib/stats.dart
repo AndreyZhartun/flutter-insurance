@@ -9,6 +9,7 @@ class Stats extends StatelessWidget {
   Widget build(BuildContext context) {
     TextTheme _textTheme = Theme.of(context).accentTextTheme;
     double _horizontalPadding = MyTheme.horizontalPadding;
+    Color _accentColor = Theme.of(context).accentColor;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -60,6 +61,7 @@ class Stats extends StatelessWidget {
                   Flexible(
                     flex: 3,
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
                           '\$ 13450.13',
@@ -68,7 +70,9 @@ class Stats extends StatelessWidget {
                         ),
                         Text(
                           'Yearly budget',
-                          style: _textTheme.bodyText2,
+                          style: _textTheme.bodyText2.copyWith(
+                            color: _accentColor,
+                          ),
                         ),
                       ],
                     ),
@@ -80,7 +84,9 @@ class Stats extends StatelessWidget {
                       textAlign: TextAlign.end,
                       text: TextSpan(
                         text: 'You\'ve spent about ',
-                        style: _textTheme.bodyText2,
+                        style: _textTheme.bodyText2.copyWith(
+                          color: _accentColor,
+                        ),
                         children: <TextSpan>[
                           TextSpan(
                             text: '64%',
@@ -90,7 +96,9 @@ class Stats extends StatelessWidget {
                           ),
                           TextSpan(
                             text: ' of your annual budget so far.',
-                            style: _textTheme.bodyText2,
+                            style: _textTheme.bodyText2.copyWith(
+                              color: _accentColor,
+                            ),
                           ),
                         ],
                       ),
@@ -100,11 +108,13 @@ class Stats extends StatelessWidget {
               ),
             ),
             //Expanded(child: Container()),
-            Expanded(
+            Spacer(),
+            FractionallySizedBox(
+              widthFactor: 1,
               //width: 100,
               //height: 200,
               //child: _YearChart.withSampleData(),
-              child: LineChartSample2(),
+              child: _YearChart(),
             ),
           ],
         ),
@@ -118,83 +128,89 @@ class _CircularPI extends StatelessWidget {
   Widget build(BuildContext context) {
     TextTheme _textTheme = Theme.of(context).accentTextTheme;
     double _size = MediaQuery.of(context).size.width / 2.5;
+    double _horizontalPadding = MyTheme.horizontalPadding;
     double _value = 0.65;
-    return SizedBox(
-      width: _size,
-      height: _size,
-      child: Stack(
-        children: <Widget>[
-          SizedBox(
-            height: _size,
-            width: _size,
-            child: CircularProgressIndicator(
-              value: 1,
-              valueColor: new AlwaysStoppedAnimation<Color>(Colors.black12),
-              strokeWidth: 10,
-            ),
-          ),
-          SizedBox(
-            height: _size,
-            width: _size,
-            child: Transform(
-              alignment: Alignment.center,
-              transform: Matrix4.rotationY(math.pi)..rotateX(math.pi),
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: _horizontalPadding * 0.5),
+      child: SizedBox(
+        width: _size,
+        height: _size,
+        child: Stack(
+          children: <Widget>[
+            SizedBox(
+              height: _size,
+              width: _size,
               child: CircularProgressIndicator(
-                value: _value,
-                valueColor: new AlwaysStoppedAnimation<Color>(Colors.red),
+                value: 1,
+                valueColor: new AlwaysStoppedAnimation<Color>(Colors.black12),
                 strokeWidth: 10,
               ),
             ),
-          ),
-          Positioned(
-            //не работает с другими value
-            left: _size/2 + math.sin(_value * 2 * math.pi - math.pi/2) * (_size/2),
-            top: _size/2 + math.cos(_value * 2 * math.pi - math.pi/2) * (_size/2),
-            child: Material(
-              color: Colors.red,
-              shape: CircleBorder(
-                side: BorderSide(
-                  width: 0.0,
+            SizedBox(
+              height: _size,
+              width: _size,
+              child: Transform(
+                alignment: Alignment.center,
+                transform: Matrix4.rotationY(math.pi)..rotateX(math.pi),
+                child: CircularProgressIndicator(
+                  value: _value,
+                  valueColor: new AlwaysStoppedAnimation<Color>(Colors.red),
+                  strokeWidth: 10,
+                ),
+              ),
+            ),
+            Positioned(
+              //не работает с другими value
+              left: _size / 2 +
+                  math.sin(_value * 2 * math.pi - math.pi / 2) * (_size / 2),
+              top: _size / 2 +
+                  math.cos(_value * 2 * math.pi - math.pi / 2) * (_size / 2),
+              child: Material(
+                color: Colors.red,
+                shape: CircleBorder(
+                  side: BorderSide(
+                    width: 0.0,
+                    color: Colors.white,
+                  ),
+                ),
+                child: Icon(
+                  Icons.check,
                   color: Colors.white,
                 ),
               ),
-              child: Icon(
-                Icons.check,
-                color: Colors.white,
+            ),
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    '\$8700.0',
+                    style: _textTheme.headline6,
+                  ),
+                  Text(
+                    'Yearly average',
+                    style: _textTheme.bodyText2,
+                  ),
+                  Icon(
+                    Icons.monetization_on,
+                    color: Colors.black,
+                  ),
+                ],
               ),
             ),
-          ),
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  '\$8700.0',
-                  style: _textTheme.headline6,
-                ),
-                Text(
-                  'Yearly average',
-                  style: _textTheme.bodyText2,
-                ),
-                Icon(
-                  Icons.monetization_on,
-                  color: Colors.black,
-                ),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
 
-class LineChartSample2 extends StatefulWidget {
+class _YearChart extends StatefulWidget {
   @override
-  _LineChartSample2State createState() => _LineChartSample2State();
+  _YearChartState createState() => _YearChartState();
 }
 
-class _LineChartSample2State extends State<LineChartSample2> {
+class _YearChartState extends State<_YearChart> {
   List<Color> gradientColors = [
     //const Color(0xff23b6e6),
     //const Color(0xff02d39a),
@@ -205,13 +221,14 @@ class _LineChartSample2State extends State<LineChartSample2> {
   Color lineColor = Colors.red;
 
   bool showAvg = false;
+  String dropdownValue = '2020';
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
         AspectRatio(
-          aspectRatio: 16 / 9, //1.70,
+          aspectRatio: 13 / 9, //1.70,
           child: Container(
             color: Colors.white, //Color(0xff232d37)),
             child: Padding(
@@ -227,20 +244,32 @@ class _LineChartSample2State extends State<LineChartSample2> {
             ),
           ),
         ),
-        SizedBox(
-          width: 60,
-          height: 34,
-          child: FlatButton(
-            onPressed: () {
+        Positioned(
+          left: 20,
+          child: DropdownButton<String>(
+            value: dropdownValue,
+            icon: Icon(Icons.arrow_drop_down),
+            onChanged: (String newValue) {
               setState(() {
                 showAvg = !showAvg;
+                dropdownValue = newValue;
               });
             },
-            child: Text(
-              'Year',
-              style: TextStyle(fontSize: 12, color: Colors.black),
-              //showAvg ? Colors.white.withOpacity(0.5) : Colors.white),
-            ),
+            underline: Container(),
+            items:
+                <String>['2020', '2019', '2018'].map<DropdownMenuItem<String>>(
+              (String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(
+                    value,
+                    style: Theme.of(context).accentTextTheme.bodyText2.copyWith(
+                          color: Theme.of(context).accentColor,
+                        ),
+                  ),
+                );
+              },
+            ).toList(),
           ),
         ),
       ],
@@ -278,7 +307,9 @@ class _LineChartSample2State extends State<LineChartSample2> {
               color: Colors.black, //Color(0xff68737d),
               //fontWeight: FontWeight.bold,
               fontSize: 16),*/
-          textStyle: Theme.of(context).accentTextTheme.bodyText2,
+          textStyle: Theme.of(context).accentTextTheme.bodyText2.copyWith(
+                color: Theme.of(context).accentColor,
+              ),
           getTitles: (value) => _months[value.toInt()],
           margin: 4,
         ),
@@ -289,6 +320,23 @@ class _LineChartSample2State extends State<LineChartSample2> {
       borderData: FlBorderData(
         show: false,
       ),
+      lineTouchData: LineTouchData(
+        //TODO найти TouchedSpotIndicatorData
+        touchTooltipData: LineTouchTooltipData(
+          tooltipBgColor: Colors.black,
+          getTooltipItems: (spotList) {
+            return [
+              LineTooltipItem(
+                '+3.5%',
+                Theme.of(context).textTheme.bodyText2.copyWith(
+                      letterSpacing: 0.5,
+                    ),
+              ),
+            ];
+          },
+        ),
+      ),
+      
       minX: 0,
       maxX: _currentMonth, //11,
       minY: 0,
