@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:fl_chart/fl_chart.dart';
 import 'dart:math' as math;
 import 'package:mock_insurance/themes.dart';
 
@@ -63,7 +63,8 @@ class Stats extends StatelessWidget {
                       children: <Widget>[
                         Text(
                           '\$ 13450.13',
-                          style: _textTheme.headline5.copyWith(fontWeight: FontWeight.bold),
+                          style: _textTheme.headline5
+                              .copyWith(fontWeight: FontWeight.bold),
                         ),
                         Text(
                           'Yearly budget',
@@ -98,11 +99,12 @@ class Stats extends StatelessWidget {
                 ],
               ),
             ),
-            //Spacer(),
+            //Expanded(child: Container()),
             Expanded(
               //width: 100,
               //height: 200,
-              child: _YearChart.withSampleData(),
+              //child: _YearChart.withSampleData(),
+              child: LineChartSample2(),
             ),
           ],
         ),
@@ -168,59 +170,132 @@ class _CircularPI extends StatelessWidget {
   }
 }
 
-class _YearChart extends StatelessWidget {
-  final List<charts.Series> seriesList;
-  final bool animate;
+class LineChartSample2 extends StatefulWidget {
+  @override
+  _LineChartSample2State createState() => _LineChartSample2State();
+}
 
-  _YearChart(this.seriesList, {this.animate});
+class _LineChartSample2State extends State<LineChartSample2> {
+  List<Color> gradientColors = [
+    //const Color(0xff23b6e6),
+    //const Color(0xff02d39a),
+    Colors.red,
+    //Color.fromRGBO(255, 71, 71, 1),
+    Colors.white,
+  ];
+  Color lineColor = Colors.red;
 
-  /// Creates a [TimeSeriesChart] with sample data and no transition.
-  factory _YearChart.withSampleData() {
-    return new _YearChart(
-      _createSampleData(),
-      // Disable animations for image tests.
-      animate: false,
-    );
-  }
+  bool showAvg = false;
 
   @override
   Widget build(BuildContext context) {
-    return new charts.TimeSeriesChart(
-      seriesList,
-      animate: animate,
-      // Optionally pass in a [DateTimeFactory] used by the chart. The factory
-      // should create the same type of [DateTime] as the data provided. If none
-      // specified, the default creates local date time.
-      dateTimeFactory: const charts.LocalDateTimeFactory(),
+    return Stack(
+      children: <Widget>[
+        AspectRatio(
+          aspectRatio: 16/9,//1.70,
+          child: Container(
+            color: Colors.white, //Color(0xff232d37)),
+            child: Padding(
+              padding: const EdgeInsets.only(
+                right: 15.0,
+                left: 15.0,
+                //top: 24,
+                //bottom: 12,
+              ),
+              child: LineChart(
+                mainData(),
+              ),
+            ),
+          ),
+        ),
+        SizedBox(
+          width: 60,
+          height: 34,
+          child: FlatButton(
+            onPressed: () {
+              setState(() {
+                showAvg = !showAvg;
+              });
+            },
+            child: Text(
+              'Year',
+              style: TextStyle(fontSize: 12, color: Colors.black),
+              //showAvg ? Colors.white.withOpacity(0.5) : Colors.white),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
-  /// Create one series with sample hard coded data.
-  static List<charts.Series<_TimeSeriesSpending, DateTime>>
-      _createSampleData() {
+  LineChartData mainData() {
     math.Random r = new math.Random();
-
-    final data = [
-      for (var i = 1; i < 13; i++)
-        _TimeSeriesSpending(new DateTime(2020, i, 1), r.nextInt(100))
+    List _months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
-
-    return [
-      new charts.Series<_TimeSeriesSpending, DateTime>(
-        id: 'Spending',
-        colorFn: (_, __) => charts.MaterialPalette.red.shadeDefault,
-        domainFn: (_TimeSeriesSpending spending, _) => spending.time,
-        measureFn: (_TimeSeriesSpending spending, _) => spending.spending,
-        data: data,
-      )
-    ];
+    double _currentMonth = 8.0;
+    return LineChartData(
+      backgroundColor: Colors.white,
+      gridData: FlGridData(
+        show: false,
+      ),
+      titlesData: FlTitlesData(
+        show: true,
+        bottomTitles: SideTitles(
+          showTitles: true,
+          reservedSize: 22,
+          /*textStyle: const TextStyle(
+              color: Colors.black, //Color(0xff68737d),
+              //fontWeight: FontWeight.bold,
+              fontSize: 16),*/
+          textStyle: Theme.of(context).accentTextTheme.bodyText2,
+          getTitles: (value) => _months[value.toInt()],
+          margin: 4,
+        ),
+        leftTitles: SideTitles(
+          showTitles: false,
+        ),
+      ),
+      borderData: FlBorderData(
+        show: false,
+      ),
+      minX: 0,
+      maxX: _currentMonth, //11,
+      minY: 0,
+      maxY: 10,
+      lineBarsData: [
+        LineChartBarData(
+          spots: [
+            for (var i = 0.0; i < _currentMonth + 1; i++)
+              FlSpot(i, r.nextDouble() * 10)
+          ],
+          isCurved: true,
+          colors: [lineColor],//gradientColors,
+          barWidth: 4,
+          isStrokeCapRound: true,
+          dotData: FlDotData(
+            show: false,
+          ),
+          belowBarData: BarAreaData(
+            show: true,
+            cutOffY: 0.1,
+            applyCutOffY: true,
+            colors:
+                gradientColors.map((color) => color.withOpacity(0.1)).toList(),
+          ),
+        ),
+      ],
+    );
   }
-}
-
-///дата модель трат
-class _TimeSeriesSpending {
-  final DateTime time;
-  final int spending;
-
-  _TimeSeriesSpending(this.time, this.spending);
 }
