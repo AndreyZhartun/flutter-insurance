@@ -118,6 +118,7 @@ class _CircularPI extends StatelessWidget {
   Widget build(BuildContext context) {
     TextTheme _textTheme = Theme.of(context).accentTextTheme;
     double _size = MediaQuery.of(context).size.width / 2.5;
+    double _value = 0.65;
     return SizedBox(
       width: _size,
       height: _size,
@@ -139,9 +140,27 @@ class _CircularPI extends StatelessWidget {
               alignment: Alignment.center,
               transform: Matrix4.rotationY(math.pi)..rotateX(math.pi),
               child: CircularProgressIndicator(
-                value: 0.6,
+                value: _value,
                 valueColor: new AlwaysStoppedAnimation<Color>(Colors.red),
                 strokeWidth: 10,
+              ),
+            ),
+          ),
+          Positioned(
+            //не работает с другими value
+            left: _size/2 + math.sin(_value * 2 * math.pi - math.pi/2) * (_size/2),
+            top: _size/2 + math.cos(_value * 2 * math.pi - math.pi/2) * (_size/2),
+            child: Material(
+              color: Colors.red,
+              shape: CircleBorder(
+                side: BorderSide(
+                  width: 0.0,
+                  color: Colors.white,
+                ),
+              ),
+              child: Icon(
+                Icons.check,
+                color: Colors.white,
               ),
             ),
           ),
@@ -192,7 +211,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
     return Stack(
       children: <Widget>[
         AspectRatio(
-          aspectRatio: 16/9,//1.70,
+          aspectRatio: 16 / 9, //1.70,
           child: Container(
             color: Colors.white, //Color(0xff232d37)),
             child: Padding(
@@ -281,7 +300,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
               FlSpot(i, r.nextDouble() * 10)
           ],
           isCurved: true,
-          colors: [lineColor],//gradientColors,
+          colors: [lineColor], //gradientColors,
           barWidth: 4,
           isStrokeCapRound: true,
           dotData: FlDotData(
