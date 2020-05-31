@@ -1,6 +1,7 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-//import 'package:mock_insurance/stats.dart';
 import 'package:mock_insurance/themes.dart';
+import 'dart:math' as math;
 //import 'package:flutter/cupertino.dart';
 
 class Profile extends StatelessWidget {
@@ -209,9 +210,6 @@ class _TypesList extends StatelessWidget {
                   itemCount: types.length,
                 ),
               ),
-              //_TypesListItem(type: 'Home Insurance', sum: '650.24'),
-              //_TypesListItem(type: 'Home Insurance', sum: '205.12'),
-              //_TypesListItem(type: 'Home Insurance', sum: '350.67'),
             ],
           ),
         ],
@@ -387,7 +385,6 @@ class _TypesListItem extends StatelessWidget {
                   ),
                 ),
               ),
-              //TODO graph
               /*SizedBox(
                 width: 140,
                 //height: 40,
@@ -396,12 +393,13 @@ class _TypesListItem extends StatelessWidget {
                   color: Colors.black26,
                 ),
               ),*/
-              Text(
+              /*Text(
                 'xd',
                 style: _textTheme.headline5.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
-              ),
+              ),*/
+              _MiniChart(),
             ],
           ),
           //),
@@ -412,6 +410,59 @@ class _TypesListItem extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _MiniChart extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 100,
+      height: 40,
+      child: LineChart(
+        mainData(context),
+      ),
+    );
+  }
+
+  //TODO graph
+  LineChartData mainData(BuildContext context) {
+    math.Random r = new math.Random();
+    return LineChartData(
+      backgroundColor: Colors.white,
+      gridData: FlGridData(show: false),
+      titlesData: FlTitlesData(
+        show: false,
+        bottomTitles: SideTitles(showTitles: false),
+        leftTitles: SideTitles(showTitles: false),
+      ),
+      borderData: FlBorderData(show: false),
+      lineTouchData: LineTouchData(handleBuiltInTouches: false),
+      minX: 0,
+      maxX: 6, //11,
+      minY: 0,
+      maxY: 10,
+      lineBarsData: [
+        LineChartBarData(
+          spots: [for (var i = 0.0; i < 6; i++) FlSpot(i, r.nextDouble() * 10)],
+          isCurved: true,
+          colors: [Colors.green], //[lineColor], //gradientColors,
+          barWidth: 1,
+          isStrokeCapRound: true,
+          dotData: FlDotData(
+            show: false,
+          ),
+          belowBarData: BarAreaData(
+            show: true,
+            cutOffY: 0.1,
+            applyCutOffY: true,
+            colors: [Colors.green, Colors.greenAccent]
+                .map((color) => color.withOpacity(0.1))
+                .toList(),
+          ),
+        ),
+      ],
     );
   }
 }
