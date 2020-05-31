@@ -2,6 +2,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:mock_insurance/themes.dart';
 import 'dart:math' as math;
+
+import 'components/top_row.dart';
 //import 'package:flutter/cupertino.dart';
 
 class Profile extends StatelessWidget {
@@ -37,33 +39,11 @@ class Profile extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: _horizontalPadding,
-                vertical: _horizontalPadding * 0.5,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.drag_handle),
-                    padding: EdgeInsets.zero,
-                    alignment: Alignment.centerLeft,
-                  ),
-                  Text(
-                    'TOTAL PAYMENT',
-                    style: _textTheme.bodyText1.copyWith(
-                      letterSpacing: 1,
-                    ),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.notifications_none),
-                    onPressed: () {},
-                    alignment: Alignment.centerRight,
-                  ),
-                ],
-              ),
+            TopRow(
+              isWhite: true,
+              title: 'TOTAL PAYMENT',
+              leading: TOP_BUTTONS.two_lines,
+              trailing: TOP_BUTTONS.notifications,
             ),
             Padding(
               padding: EdgeInsets.only(
@@ -419,7 +399,7 @@ class _MiniChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 100,
-      height: 40,
+      height: 30,
       child: LineChart(
         mainData(context),
       ),

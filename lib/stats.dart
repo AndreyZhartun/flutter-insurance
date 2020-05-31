@@ -4,6 +4,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'dart:math' as math;
 import 'package:mock_insurance/themes.dart';
 
+import 'components/top_row.dart';
+
 class Stats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -15,38 +17,11 @@ class Stats extends StatelessWidget {
         backgroundColor: Colors.white,
         body: Column(
           children: <Widget>[
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: _horizontalPadding,
-                vertical: _horizontalPadding * 0.5,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  IconButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    icon: Icon(Icons.chevron_left),
-                    padding: EdgeInsets.zero,
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    alignment: Alignment.centerLeft,
-                  ),
-                  Text(
-                    'YOUR STATS',
-                    style: _textTheme.bodyText1.copyWith(
-                      letterSpacing: 1,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    icon: Icon(Icons.notifications),
-                    padding: EdgeInsets.zero,
-                  ),
-                ],
-              ),
+            TopRow(
+              isWhite: false,
+              title: 'YOUR STATS',
+              leading: TOP_BUTTONS.back,
+              trailing: TOP_BUTTONS.empty,
             ),
             _CircularPI(),
             Padding(
@@ -336,7 +311,7 @@ class _YearChartState extends State<_YearChart> {
           },
         ),
       ),
-      
+
       minX: 0,
       maxX: _currentMonth, //11,
       minY: 0,
