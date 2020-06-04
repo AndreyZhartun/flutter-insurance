@@ -220,7 +220,7 @@ class _AgentCard extends StatelessWidget {
               side: BorderSide.none,
               borderRadius: BorderRadius.circular(50),
             ),
-            color: Color.fromRGBO(255, 71, 71, 1),
+            color: Theme.of(context).cardColor,
             child: Column(
               children: <Widget>[
                 Padding(
@@ -326,7 +326,7 @@ class _TypesListItem extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Expanded(
+          Flexible(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -340,10 +340,14 @@ class _TypesListItem extends StatelessWidget {
                     ),
                   ),
                 ),
-                Text(
-                  '\$ $sum',
-                  style: _textTheme.headline5.copyWith(
-                    fontWeight: FontWeight.bold,
+                SizedBox(
+                  width: 130,
+                  height: 25,
+                  child: Text(
+                    '\$ $sum',
+                    style: _textTheme.headline5.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ],
@@ -352,42 +356,52 @@ class _TypesListItem extends StatelessWidget {
           /*Padding(
             padding: EdgeInsets.symmetric(horizontal: _horizontalPadding-25),
             child: */
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(bottom: 6),
-                child: Text(
-                  'last month',
-                  style: _textTheme.bodyText2.copyWith(
-                    color: accentColor,
-                    letterSpacing: 0.5,
+          Flexible(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(bottom: 6),
+                  child: Text(
+                    'last month',
+                    style: _textTheme.bodyText2.copyWith(
+                      color: accentColor,
+                      letterSpacing: 0.5,
+                    ),
                   ),
                 ),
-              ),
-              /*SizedBox(
-                width: 140,
-                //height: 40,
-                height: _textTheme.headline5.fontSize,
-                child: Container(
-                  color: Colors.black26,
-                ),
-              ),*/
-              /*Text(
-                'xd',
-                style: _textTheme.headline5.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),*/
-              _MiniChart(),
-            ],
+                /*SizedBox(
+                  width: 140,
+                  //height: 40,
+                  height: _textTheme.headline5.fontSize,
+                  child: Container(
+                    color: Colors.black26,
+                  ),
+                ),*/
+                /*Text(
+                  'xd',
+                  style: _textTheme.headline5.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),*/
+                _MiniChart(),
+              ],
+            ),
           ),
           //),
-          IconButton(
-            icon: Icon(Icons.chevron_right, color: Colors.black),
-            onPressed: () {},
-            alignment: Alignment.centerRight,
+          /*IconButton(
+            icon: */
+          InkWell(
+            onTap: () {},
+            child: Icon(
+              Icons.chevron_right,
+              color: Colors.black,
+            ),
           ),
+          //onPressed: () {},
+          //alignment: Alignment.centerRight,
+          //padding: EdgeInsets.zero,
+          //),
         ],
       ),
     );
@@ -397,18 +411,45 @@ class _TypesListItem extends StatelessWidget {
 class _MiniChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 100,
-      height: 30,
-      child: LineChart(
-        mainData(context),
-      ),
+    math.Random r = new math.Random();
+    //случайные данные генерируются, чтобы красиво выглядеть на графике
+    List<FlSpot> spots = [
+      for (var i = 0.0; i < 6; i++) FlSpot(i, 3 + r.nextDouble() * 6)
+    ];
+    double dy =
+        (spots[spots.length - 1].y / spots[spots.length - 2].y - 1) * 10;
+    String growth = '${dy.toStringAsFixed(2)}%';
+    Color chartColor = Colors.red;
+    if (dy > 0) {
+      growth = '+$growth';
+      chartColor = Colors.green;
+    }
+    return Row(
+      children: <Widget>[
+        SizedBox(
+          width: 80,
+          height: 25,
+          child: LineChart(
+            getChartData(context, chartColor, spots),
+          ),
+        ),
+        Text(
+          growth,
+          style: Theme.of(context).accentTextTheme.bodyText1.copyWith(
+                color: chartColor,
+              ),
+          textAlign: TextAlign.start,
+        ),
+      ],
     );
   }
 
   //TODO graph
-  LineChartData mainData(BuildContext context) {
-    math.Random r = new math.Random();
+  LineChartData getChartData(
+    BuildContext context,
+    Color chartColor,
+    List<FlSpot> data,
+  ) {
     return LineChartData(
       backgroundColor: Colors.white,
       gridData: FlGridData(show: false),
@@ -425,18 +466,18 @@ class _MiniChart extends StatelessWidget {
       maxY: 10,
       lineBarsData: [
         LineChartBarData(
-          spots: [for (var i = 0.0; i < 6; i++) FlSpot(i, r.nextDouble() * 10)],
+          spots: data,
           isCurved: true,
-          colors: [Colors.green], //[lineColor], //gradientColors,
+          colors: [chartColor], //[lineColor], //gradientColors,
           barWidth: 1,
           isStrokeCapRound: true,
           dotData: FlDotData(
             show: false,
           ),
           belowBarData: BarAreaData(
-            show: true,
-            cutOffY: 0.1,
-            applyCutOffY: true,
+            show: false,
+            //cutOffY: 1,
+            //applyCutOffY: true,
             colors: [Colors.green, Colors.greenAccent]
                 .map((color) => color.withOpacity(0.1))
                 .toList(),

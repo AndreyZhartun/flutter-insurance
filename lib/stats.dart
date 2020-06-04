@@ -102,6 +102,7 @@ class _CircularPI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextTheme _textTheme = Theme.of(context).accentTextTheme;
+    Color _color = Theme.of(context).cardColor;
     double _size = MediaQuery.of(context).size.width / 2.5;
     double _horizontalPadding = MyTheme.horizontalPadding;
     double _value = 0.65;
@@ -129,19 +130,21 @@ class _CircularPI extends StatelessWidget {
                 transform: Matrix4.rotationY(math.pi)..rotateX(math.pi),
                 child: CircularProgressIndicator(
                   value: _value,
-                  valueColor: new AlwaysStoppedAnimation<Color>(Colors.red),
+                  valueColor: new AlwaysStoppedAnimation<Color>(_color),
                   strokeWidth: 10,
                 ),
               ),
             ),
             Positioned(
               //не работает с другими value
+              //то, что это работает с данным value вообще магия
+              //TODO пофиксить
               left: _size / 2 +
                   math.sin(_value * 2 * math.pi - math.pi / 2) * (_size / 2),
               top: _size / 2 +
                   math.cos(_value * 2 * math.pi - math.pi / 2) * (_size / 2),
               child: Material(
-                color: Colors.red,
+                color: _color,
                 shape: CircleBorder(
                   side: BorderSide(
                     width: 0.0,
@@ -186,24 +189,46 @@ class _YearChart extends StatefulWidget {
 }
 
 class _YearChartState extends State<_YearChart> {
-  List<Color> gradientColors = [
-    //const Color(0xff23b6e6),
-    //const Color(0xff02d39a),
-    Colors.red,
-    //Color.fromRGBO(255, 71, 71, 1),
-    Colors.white,
-  ];
-  Color lineColor = Colors.red;
-
-  bool showAvg = false;
   String dropdownValue = '2020';
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    double _horizontalPadding = MyTheme.horizontalPadding;
+    return Column(
       children: <Widget>[
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: EdgeInsets.only(left: _horizontalPadding),
+            child: DropdownButton<String>(
+              value: dropdownValue,
+              icon: Icon(Icons.arrow_drop_down),
+              onChanged: (String newValue) {
+                setState(() {
+                  dropdownValue = newValue;
+                });
+              },
+              underline: Container(),
+              items: <String>['2020', '2019', '2018']
+                  .map<DropdownMenuItem<String>>(
+                (String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(
+                      value,
+                      style:
+                          Theme.of(context).accentTextTheme.bodyText2.copyWith(
+                                color: Theme.of(context).accentColor,
+                              ),
+                    ),
+                  );
+                },
+              ).toList(),
+            ),
+          ),
+        ),
         AspectRatio(
-          aspectRatio: 13 / 9, //1.70,
+          aspectRatio: 16 / 9, //1.70,
           child: Container(
             color: Colors.white, //Color(0xff232d37)),
             child: Padding(
@@ -217,34 +242,6 @@ class _YearChartState extends State<_YearChart> {
                 mainData(),
               ),
             ),
-          ),
-        ),
-        Positioned(
-          left: 20,
-          child: DropdownButton<String>(
-            value: dropdownValue,
-            icon: Icon(Icons.arrow_drop_down),
-            onChanged: (String newValue) {
-              setState(() {
-                showAvg = !showAvg;
-                dropdownValue = newValue;
-              });
-            },
-            underline: Container(),
-            items:
-                <String>['2020', '2019', '2018'].map<DropdownMenuItem<String>>(
-              (String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(
-                    value,
-                    style: Theme.of(context).accentTextTheme.bodyText2.copyWith(
-                          color: Theme.of(context).accentColor,
-                        ),
-                  ),
-                );
-              },
-            ).toList(),
           ),
         ),
       ],
@@ -323,7 +320,7 @@ class _YearChartState extends State<_YearChart> {
               FlSpot(i, r.nextDouble() * 10)
           ],
           isCurved: true,
-          colors: [lineColor], //gradientColors,
+          colors: [Theme.of(context).cardColor], //gradientColors,
           barWidth: 4,
           isStrokeCapRound: true,
           dotData: FlDotData(
@@ -331,10 +328,12 @@ class _YearChartState extends State<_YearChart> {
           ),
           belowBarData: BarAreaData(
             show: true,
-            cutOffY: 0.1,
-            applyCutOffY: true,
-            colors:
-                gradientColors.map((color) => color.withOpacity(0.1)).toList(),
+            //cutOffY: 0.1,
+            //applyCutOffY: true,
+            gradientFrom: Offset(0.1, 0.5),
+            colors: [Theme.of(context).cardColor, Colors.white]
+                .map((color) => color.withOpacity(0.3))
+                .toList(),
           ),
         ),
       ],

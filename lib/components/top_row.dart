@@ -36,7 +36,7 @@ class TopRow extends StatelessWidget {
             Navigator.of(context).pop();
           },
           icon: Icon(Icons.chevron_left),
-          //padding: EdgeInsets.zero,
+          padding: EdgeInsets.zero,
           color: _color,
           alignment: _alignment,
         );
@@ -44,7 +44,7 @@ class TopRow extends StatelessWidget {
         return IconButton(
           onPressed: () {},
           icon: Icon(Icons.notifications_none),
-          //padding: EdgeInsets.zero,
+          padding: EdgeInsets.zero,
           color: _color,
           alignment: _alignment,
         );
@@ -52,7 +52,7 @@ class TopRow extends StatelessWidget {
         return IconButton(
           onPressed: () {},
           icon: Icon(Icons.drag_handle),
-          //padding: EdgeInsets.zero,
+          padding: EdgeInsets.zero,
           color: _color,
           alignment: _alignment,
         );
